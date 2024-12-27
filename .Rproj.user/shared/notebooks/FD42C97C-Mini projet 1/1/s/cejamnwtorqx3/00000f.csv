@@ -1,0 +1,4 @@
+"0","gapminder1962 <- subset(gapminder, year ==1962)"
+"0","gapminder2007 <- subset(gapminder, year ==2007)"
+"0","gapminder_1962_2007<-gapminder[gapminder$year %in% c(1962,2007), ]"
+"0",""

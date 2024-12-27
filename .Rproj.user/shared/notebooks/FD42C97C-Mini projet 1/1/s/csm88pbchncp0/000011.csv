@@ -1,0 +1,8 @@
+"0",""
+"0","ggplot(gapminder_1962_2007, aes(x = gdpPercap, y = lifeExp, color = factor(year))) +"
+"0","    geom_point(alpha = 0.7, size = 3) +"
+"0","    scale_x_log10() +  # Utilise une échelle logarithmique pour le PIB par habitant"
+"0","    labs(title = ""Relation entre l'espérance de vie et le PIB par habitant (1962 et 2007)"","
+"0","         x = ""PIB par habitant (logarithmique)"","
+"0","         y = ""Espérance de vie (années)"","
+"0","         color = ""Année"") "

@@ -1,0 +1,6 @@
+"0","# Calcul de l'espérance de vie globale mondiale"
+"0",""
+"0","Esperance_de_vie_1962 <- sum(gapminder1962$lifeExp * gapminder1962$pop)/sum(gapminder1962$pop)"
+"0",""
+"0","Esperance_de_vie_2007 <- sum(gapminder2007$lifeExp * gapminder2007$pop)/sum(gapminder2007$pop)"
+"0",""

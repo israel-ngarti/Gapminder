@@ -1,0 +1,218 @@
+---
+title: "MANIPULATION DES DONNES EN STATISTIQUE UNIVARIEE ET BIVARIEE"
+author: "MOIELWAY NGARTI Israël"
+date: "2024-11-05"
+#output: html_document
+format: 
+  html:
+    theme: flatly      # Choisir un thème Quarto 
+    toc: true          # Activer la table des matières
+    toc-depth: 3       # Profondeur de la table des matières
+    self-contained: true # Intégrer les graphiques dans le HTML
+    toc-title: "Sommaire"  
+    code-fold: true      # Permet de replier/déplier le code
+    code-tools: true      # Ajoute des outils pour copier le code
+execute:
+  echo: true
+  warning: false
+  message: false
+  results: "markup" 
+---
+
+```{r}
+library(gapminder)
+library(ggplot2)
+library(dplyr)
+```
+
+
+# Contexte
+L'analyse de l'évolution des indicateurs démographiques et économiques, tels que l'espérance de vie et le produit intérieur brut (PIB), est cruciale pour comprendre les dynamiques de développement d'un pays sur plusieurs décennies. Cette étude examine les tendances de ces deux indicateurs entre 1962 et 2007 à travers des analyses univariées et bivariées, accompagnées de graphiques pour illustrer les résultats.
+Pour ce faire nous allons faire une analyse univariée, bivariée et enfin une analyse qualitative des résultats.
+
+# Importation des données de gapminder
+```{r}
+data("gapminder")
+```
+
+## Filtration des données 
+```{r}
+gapminder1962 <- subset(gapminder, year ==1962)
+gapminder2007 <- subset(gapminder, year ==2007)
+gapminder_1962_2007<-gapminder[gapminder$year %in% c(1962,2007), ]
+
+```
+
+# Analyse univariée
+L'analyse univariée de l'espérance de vie et du PIB permet d'observer séparément l'évolution de chaque indicateur. Cela aide à comprendre comment, au fil du temps, la santé et la richesse économique ont changé, en montrant les progrès dans les conditions de vie et le développement économique.
+
+## Espérance de vie
+
+L'espérance de vie dans le monde a considérablement augmenté entre 1962 et 2007. Dans de nombreux pays, cette amélioration s'explique par les progrès de la médecine, une meilleure nutrition et l'accès accru aux soins de santé.
+
+
+```{r}
+# Calcul de l'espérance de vie globale mondiale
+
+Esperance_de_vie_1962 <- sum(gapminder1962$lifeExp * gapminder1962$pop)/sum(gapminder1962$pop)
+
+Esperance_de_vie_2007 <- sum(gapminder2007$lifeExp * gapminder2007$pop)/sum(gapminder2007$pop)
+
+```
+ Aperçu de l’évolution de l'espérance de vie mondiale:
+ <ul>
+<li>  En 1962, l'espérance de vie mondiale était d'environ 52 ans.</li>
+<li>  En 2007, l'espérance de vie mondiale a atteint environ 69 ans.</li>
+ </ul>
+  
+## Distribution de l'espérance de vie entre 1962 et 2007
+```{r}
+ggplot(gapminder_1962_2007, aes(x = lifeExp, fill = factor(year))) +
+  geom_histogram(alpha = 0.6, position = "identity", bins = 20) +
+  labs(title = "Distribution de l'espérance de vie en 1962 et 2007",
+       x = "Espérance de vie (années)",
+       y = "Nombre de pays") +
+  theme_minimal()
+
+
+```
+
+Ce graphique met en évidence une augmentation constante de l'espérance de vie, bien que certaines régions du monde, notamment les pays les moins développés, aient connu une progression plus lente en raison de crises sanitaires, économiques ou politiques.
+
+## Produit intérieur brut (PIB) 
+
+Le PIB mondial a connu une croissance exponentielle entre 1962 et 2007, en particulier dans les pays développés et émergents. Cela reflète une augmentation générale de la production économique, soutenue par l'industrialisation, l'urbanisation et les innovations technologiques.
+
+```{r}
+# Calcul du PIB mondial enn 1962 et 2007
+
+PIB_mondial_1962 <- sum(gapminder1962$gdpPercap * gapminder1962$pop)
+
+PIB_mondial_2007 <- sum(gapminder2007$gdpPercap * gapminder2007$pop)
+```
+
+
+Quelques chiffres clés :
+<ul>
+<li>En 1962, le PIB mondial était d'environ 11 000 milliards USD.</li>
+<li>En 2007, le PIB mondial a atteint plus de 58 000 milliards USD.</li>
+</ul>
+
+## Comparaison entre le PIB par habitant en 1962 et 2007
+
+```{r}
+ggplot(gapminder_1962_2007, aes(x = factor(year), y = gdpPercap)) +
+  geom_boxplot() +
+  labs(title = "Comparaison du PIB par habitant en 1962 et 2007",
+       x = "Année",
+       y = "PIB par habitant (USD)") +
+  theme_minimal()
+
+```
+# Analyse bivariée 
+
+Pour mieux comprendre la relation entre les indicateurs d’espérance de vie et de PIB, nous pouvons examiner comment ces deux variables interagissent dans le temps. L’hypothèse courante est que les pays ayant un PIB élevé ont également une espérance de vie plus longue en raison de meilleures conditions de vie et d’un accès facilité aux soins de santé.
+
+
+```{r}
+
+ggplot(gapminder_1962_2007, aes(x = gdpPercap, y = lifeExp, color = factor(year))) +
+    geom_point(alpha = 0.7, size = 3) +
+    scale_x_log10() +  # Utilise une échelle logarithmique pour le PIB par habitant
+    labs(title = "Relation entre l'espérance de vie et le PIB par habitant (1962 et 2007)",
+         x = "PIB par habitant (logarithmique)",
+         y = "Espérance de vie (années)",
+         color = "Année") 
+```
+Ce graphique montre que les pays avec un PIB par habitant plus élevé ont généralement une espérance de vie plus longue. Toutefois, il est important de noter que cette corrélation n’est pas parfaite. Certains pays avec un PIB modéré ont pu améliorer considérablement l’espérance de vie grâce à des politiques de santé publique efficaces.
+
+
+# Analyse qualitative 
+
+L’analyse bivariée suggère que l'espérance de vie et le PIB par habitant sont en général positivement corrélés. Toutefois, cette corrélation est influencée par d'autres variables qualitatives comme les politiques publiques, la stabilité politique, et le niveau d'éducation, qui varient d'un pays à l'autre. Par exemple, un pays  avec un PIB relativement faible, peut présenter une espérance de vie similaire à celle de pays plus riches, en raison d'un système de santé très performant.
+
+En revanche, certains pays riches en ressources naturelles, comme les pays du Golfe, ont un PIB par habitant très élevé, mais une espérance de vie qui reste en deçà de celle de certains pays européens, ce qui peut être attribué à des politiques publiques différentes ou à des inégalités sociales internes.
+Nous pouvons vérifier l'hypothèse grâce à ces graphiques de repartition de l'espérance de vie moyenne par niveau de PIB en 1962 et 2007.
+
+```{r}
+#1962
+# Calculer les coupures basées sur les quantiles
+coupures <- quantile(gapminder1962$gdpPercap, probs = c(0, 0.2, 0.4, 0.6, 0.8, 1))
+
+# Créer une variable catégorielle pour le niveau de revenu
+gapminder1962$nivPIB <- cut(
+  gapminder1962$gdpPercap,
+  breaks = coupures,
+  labels = c("Très Faible", "Faible", "Moyen", "Fort", "Très Fort"),
+  include.lowest = TRUE
+)
+
+# Calculer l'espérance de vie moyenne pour chaque catégorie
+lifeExp_by_income_1962 <- gapminder1962 %>%
+  group_by(nivPIB) %>%
+  summarise(mean_lifeExp = mean(lifeExp))
+
+# Convertir 'mean_lifeExp' en chiffres avec un chiffre après la virgule (optionnel)
+lifeExp_by_income_1962<- lifeExp_by_income_1962 %>%
+  mutate(mean_lifeExp = round(mean_lifeExp, 1))
+
+# Graphique : Diagramme en barres avec les moyennes affichées
+ggplot(lifeExp_by_income_1962, aes(x = nivPIB, y = mean_lifeExp, fill = nivPIB)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = mean_lifeExp),
+    vjust = -0.5,   # Position verticale des étiquettes au-dessus des barres
+    size = 4        # Taille du texte des étiquettes
+  ) +
+  labs(
+    title = "Espérance de vie moyenne par catégorie de revenu en 1962",
+    x = "Catégorie de revenu",
+    y = "Espérance de vie moyenne (années)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+```{r}
+#2007
+# Calculer les coupures basées sur les quantiles
+coupures <- quantile(gapminder2007$gdpPercap, probs = c(0, 0.2, 0.4, 0.6, 0.8, 1))
+
+# Créer une variable catégorielle pour le niveau de revenu
+gapminder2007$nivPIB <- cut(
+  gapminder2007$gdpPercap,
+  breaks = coupures,
+  labels = c("Très Faible", "Faible", "Moyen", "Fort", "Très Fort"),
+  include.lowest = TRUE
+)
+
+# Calculer l'espérance de vie moyenne pour chaque catégorie
+lifeExp_by_income_2007 <- gapminder2007 %>%
+  group_by(nivPIB) %>%
+  summarise(mean_lifeExp = mean(lifeExp))
+
+# Convertir 'mean_lifeExp' en chiffres avec un chiffre après la virgule (optionnel)
+lifeExp_by_income_2007 <- lifeExp_by_income_2007 %>%
+  mutate(mean_lifeExp = round(mean_lifeExp, 1))
+
+# Graphique : Diagramme en barres avec les moyennes affichées
+ggplot(lifeExp_by_income_2007, aes(x = nivPIB, y = mean_lifeExp, fill = nivPIB)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = mean_lifeExp),
+    vjust = -0.5,   # Position verticale des étiquettes au-dessus des barres
+    size = 4        # Taille du texte des étiquettes
+  ) +
+  labs(
+    title = "Espérance de vie moyenne par catégorie de revenu en 2007",
+    x = "Catégorie de revenu",
+    y = "Espérance de vie moyenne (années)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+On observe que l'espérance de vie de la population évolue en fonction du niveau de revenu, plus le PIB est grand, plus l'espérance de vie est élevée.
+On observe Aussi qu'entre 1962 et 2007, l'espérance de vie moyenne a augmenté dans toutes les catégories de revenu.
+  

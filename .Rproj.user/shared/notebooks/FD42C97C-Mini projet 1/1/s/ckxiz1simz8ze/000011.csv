@@ -1,0 +1,7 @@
+"0","ggplot(gapminder_1962_2007, aes(x = factor(year), y = gdpPercap)) +"
+"0","  geom_boxplot() +"
+"0","  labs(title = ""Comparaison du PIB par habitant en 1962 et 2007"","
+"0","       x = ""Année"","
+"0","       y = ""PIB par habitant (USD)"") +"
+"0","  theme_minimal()"
+"0",""

@@ -1,0 +1,5 @@
+"0","# Calcul du PIB mondial enn 1962 et 2007"
+"0",""
+"0","PIB_mondial_1962 <- sum(gapminder1962$gdpPercap * gapminder1962$pop)"
+"0",""
+"0","PIB_mondial_2007 <- sum(gapminder2007$gdpPercap * gapminder2007$pop)"

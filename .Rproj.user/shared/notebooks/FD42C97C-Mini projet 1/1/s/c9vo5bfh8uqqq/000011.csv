@@ -1,0 +1,6 @@
+"0","ggplot(gapminder_1962_2007, aes(x = lifeExp, fill = factor(year))) +"
+"0","  geom_histogram(alpha = 0.6, position = ""identity"", bins = 20) +"
+"0","  labs(title = ""Distribution de l'espérance de vie en 1962 et 2007"","
+"0","       x = ""Espérance de vie (années)"","
+"0","       y = ""Nombre de pays"") +"
+"0","  theme_minimal()"
